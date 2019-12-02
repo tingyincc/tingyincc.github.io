@@ -1,2 +1,2 @@
 # tingyincc.github.io
-mypage
+Personal Website
