@@ -1,0 +1,2 @@
+# tingyincc.github.io
+mypage
