@@ -1,2 +1,2 @@
-# tingyincc.github.io
-Personal Website
+# Personal Website
+fork from https://github.com/mmacneil/devfolio
