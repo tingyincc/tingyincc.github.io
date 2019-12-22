@@ -7,9 +7,19 @@
   <link rel="icon" href="favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="css/main.bundle.css">
   <script src="https://kit.fontawesome.com/9763f2a323.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.css">
+  <script src="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.js"></script>
 </head>
 
-<body style="background-image: url('img/bg.jpg');background-attachment: fixed; background-size: cover;">
+<!-- https://tingyincc.github.io/img/bg.jpg -->
+
+<!-- <body style="background-image: url('img/bg.jpg');background-attachment: fixed; background-size: cover;"> -->
+<body>
+<div style="position: fixed; width: 100%" >
+<a href="https://tingyincc.github.io/img/bg.jpg" class="progressive replace" >
+  <img src="img/bg-tiny.jpg" class="preview" alt="image" />
+</a>
+</div>
   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand" >
       <div class="navbar-item is-hidden-desktop">
@@ -72,7 +82,7 @@
     </div>
   </section>
 
- <section class="section">
+ <section class="section section-fixed">
     <div class="container">
       <h1 class="title">Education</h1>
       <hr />
@@ -96,7 +106,7 @@
 
   </section>
 
-  <section class="section">
+  <section class="section section-fixed">
     <div class="container">
       <h1 class="title">Experience</h1>
       <hr />
@@ -155,7 +165,7 @@
     </div>
   </section>
 
- <section class="section">
+ <section class="section section-fixed">
     <div class="container">
       <h1 class="title">Publications</h1>
       <hr />
@@ -192,7 +202,7 @@
       </div>
     </div>
   </section>
-  <section class="section">
+  <section class="section section-fixed">
     <div class="container">
       <h1 class="title">Projects</h1>
       <hr />
@@ -291,7 +301,7 @@
 
  
 
-  <section class="section">
+  <section class="section section-fixed">
     <div class="container">
       <h1 class="title">Contact</h1>
       <hr />
@@ -781,7 +791,7 @@ AUC are 87.95% (73/83), 95.00% (19/20), 85.71%
     </div>
   </div>
 
-  <footer class="footer">
+  <footer class="footer" style="position: relative;">
     <div class="content has-text-centered">
       <p>         
           <a href="https://github.com/tingyincc/tingyincc.github.io" target="_blank" class="icon has-text-primary">

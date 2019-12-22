@@ -10670,3 +10670,8 @@ screen and (min-width:769px) {
 .section {
     padding: 2.15rem 1.5rem
 }
+
+.section.section-fixed {
+    background-color: white;
+    position: relative;
+}
