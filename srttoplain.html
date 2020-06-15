@@ -11,7 +11,8 @@
     <label for="file">UTF8檔案上傳：<input id="file" type="file" value="UTF8" /><br></label>
     <label for="file_big5">繁體檔案上傳：<input id="file_big5" type="file" value="繁體" /><br></label>
     <label for="file_gbk">簡體檔案上傳：<input id="file_gbk" type="file" value="簡體" /><br></label>
-    <textarea rows="20" id="output" style="width:99%;margin-right:auto"></textarea>
+    <br>
+    <label for="output">文本預覽：</label><textarea rows="20" id="output" style="width:99%;margin-right:auto"></textarea>
     <br>
     <tr>
         <td><input type="button" value="去除時間碼-保留空格" onclick="removeTimeCodeReg()" /></td>
@@ -20,6 +21,9 @@
         <td><input type="button" value="複製" onclick="copy()" /></td>
     </tr>
 
+    <footer>
+        <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> </p>
+    </footer>
 
     <script>
         window.onload = function () {
