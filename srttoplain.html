@@ -4,6 +4,7 @@
 <head>
     <title>SRT去除時間碼工具</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
 </head>
@@ -16,11 +17,11 @@
         </p>
 
         <div class="form-group">
-            <label class="btn btn-secondary btn-lg" for="file">UTF8檔案上傳<input class="d-none" id="file" type="file"
+            <label class="btn btn-secondary " for="file">UTF8檔案上傳<input class="d-none" id="file" type="file"
                     value="UTF8" /><br></label>
-            <label class="btn btn-secondary btn-lg" for="file_big5">繁體檔案上傳<input class="d-none" id="file_big5"
-                    type="file" value="繁體" /><br></label>
-            <label class="btn btn-secondary btn-lg" for="file_gbk">簡體檔案上傳<input class="d-none" id="file_gbk" type="file"
+            <label class="btn btn-secondary " for="file_big5">繁體檔案上傳<input class="d-none" id="file_big5" type="file"
+                    value="繁體" /><br></label>
+            <label class="btn btn-secondary " for="file_gbk">簡體檔案上傳<input class="d-none" id="file_gbk" type="file"
                     value="簡體" /><br></label>
 
         </div>
@@ -30,10 +31,10 @@
             <textarea class="form-control" rows="20" id="output"></textarea>
         </div>
         <div class="form-group">
-            <input type="button" value="去除時間碼-保留空格" class="btn btn-primary btn-lg" onclick="removeTimeCodeReg()" />
-            <input type="button" value="去除時間碼-移除空格" class="btn btn-primary btn-lg" onclick="removeTimeCodeRegAll()" />
-            <input type="button" value="複製" class="btn btn-primary btn-lg" onclick="copy()" />
-            <input type="button" value="清空輸入框" class="btn btn-danger btn-lg" onclick="clean()" />
+            <input type="button" value="去除時間碼-保留空格" class="btn btn-primary " onclick="removeTimeCodeReg()" />
+            <input type="button" value="去除時間碼-移除空格" class="btn btn-primary " onclick="removeTimeCodeRegAll()" />
+            <input type="button" value="複製" class="btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空輸入框" class="btn btn-danger " onclick="clean()" />
         </div>
 
         <footer>
