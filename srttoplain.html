@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>SRT去除時間碼工具</h1>
+    <p>UTF8檔案上傳：<input id="file" type="file" value="upload file" /></p>
+    <p>繁體檔案上傳：<input id="file_big5" type="file" value="upload file big5" /></p>
+    <p>簡體檔案上傳：<input id="file_gbk" type="file" value="upload file big5" /></p>
+    <textarea rows="20" id="output" style="width:99%;margin-right:auto"></textarea>
+    <br>
+    <tr>
+        <td><input type="button" value="去除時間碼-移除空格" onclick="removeTimeCodeRegAll()" /></td>
+        <td><input type="button" value="去除時間碼-保留空格" onclick="removeTimeCodeReg()" /></td>
+        <td><input type="button" value="清空輸入框" onclick="clean()" /></td>
+        <td><input type="button" value="複製" onclick="copy()" /></td>
+    </tr>
+
+
+    <script>
+        window.onload = function () {
+            //document.getElementById('file').onchange = readFile;
+            document.getElementById("file").addEventListener("change", function () {
+                readFile(this.files[0], 'utf-8', "file");
+            }, false);
+            document.getElementById("file_big5").addEventListener("change", function () {
+                readFile(this.files[0], 'big5', "file_big5");
+            }, false);
+            document.getElementById("file_gbk").addEventListener("change", function () {
+                readFile(this.files[0], 'gbk', "file_gbk");
+            }, false);
+        };
+        function readFile(file, charset, elemID) {
+            var fReader = new FileReader();
+            fReader.onload = function (event) {
+                document.getElementById('output').value = event.target.result;
+            };
+            fReader.readAsText(file, charset);
+            document.getElementById(elemID).value = null;
+        }
+        function removeTimeCodeRegAll() {
+            var input = document.getElementById("output");
+            input.value = input.value.replace(/^[\d\s\n].*\n/mg, "");
+            copy();
+        }
+        function removeTimeCodeReg() {
+            var input = document.getElementById("output");
+            input.value = input.value.replace(/^[\d].*\n/mg, "");
+            copy();
+        }
+        function removeTimeCode() {
+            var input = document.getElementById("output");
+            length = input.value.length;
+            isFirstSumbol = true; //is the first character in line a symbol(0-9)
+            CancelExit = false;
+            var strOut = "";
+
+            for (i = 0; i < length; i++) {
+                ch = input.value.substring(i, i + 1);
+
+                if (isFirstSumbol) {
+                    if (ch >= '0' && ch <= '9') {
+                        CancelExit = true;
+                        isFirstSumbol = false;
+                    }
+                    else {
+                        CancelExit = false;
+                        strOut += '\n';
+                        isFirstSumbol = false;
+                    }
+                }
+                if (ch == '\n') {
+                    isFirstSumbol = true;
+                }
+                console.log(ch, CancelExit, isFirstSumbol);
+                if ((!CancelExit) && (!isFirstSumbol)) {
+                    strOut += ch;
+                    //document.all.TextFields.Output.value = i;
+                }
+                else continue;
+            }
+            input.value = strOut;
+            copy();
+            return;
+        }
+
+        function clean() {
+            document.getElementById("output").value = "";
+        }
+        //复制方法
+        function copy() {
+            var in_output = document.getElementById("output");
+            in_output.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            if (confirm("文本已複製至剪貼簿")) {
+                //in_output.value = "";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
