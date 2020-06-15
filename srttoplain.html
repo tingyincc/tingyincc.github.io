@@ -4,26 +4,43 @@
 <head>
     <title>SRT去除時間碼工具</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
 </head>
 
 <body>
-    <h1>SRT去除時間碼工具</h1>
-    <label for="file">UTF8檔案上傳：<input id="file" type="file" value="UTF8" /><br></label>
-    <label for="file_big5">繁體檔案上傳：<input id="file_big5" type="file" value="繁體" /><br></label>
-    <label for="file_gbk">簡體檔案上傳：<input id="file_gbk" type="file" value="簡體" /><br></label>
-    <br>
-    <label for="output">文本預覽：</label><textarea rows="20" id="output" style="width:99%;margin-right:auto"></textarea>
-    <br>
-    <tr>
-        <td><input type="button" value="去除時間碼-保留空格" onclick="removeTimeCodeReg()" /></td>
-        <td><input type="button" value="去除時間碼-移除空格" onclick="removeTimeCodeRegAll()" /></td>
-        <td><input type="button" value="清空輸入框" onclick="clean()" /></td>
-        <td><input type="button" value="複製" onclick="copy()" /></td>
-    </tr>
 
-    <footer>
-        <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> </p>
-    </footer>
+    <div class="container-fluid">
+        <p>
+        <h1>SRT去除時間碼工具</h1>
+        </p>
+
+        <div class="form-group">
+            <label class="btn btn-secondary btn-lg" for="file">UTF8檔案上傳<input class="d-none" id="file" type="file"
+                    value="UTF8" /><br></label>
+            <label class="btn btn-secondary btn-lg" for="file_big5">繁體檔案上傳<input class="d-none" id="file_big5"
+                    type="file" value="繁體" /><br></label>
+            <label class="btn btn-secondary btn-lg" for="file_gbk">簡體檔案上傳<input class="d-none" id="file_gbk" type="file"
+                    value="簡體" /><br></label>
+
+        </div>
+
+        <div class="form-group">
+            <label for="output">文本預覽：</label>
+            <textarea class="form-control" rows="20" id="output"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="button" value="去除時間碼-保留空格" class="btn btn-primary btn-lg" onclick="removeTimeCodeReg()" />
+            <input type="button" value="去除時間碼-移除空格" class="btn btn-primary btn-lg" onclick="removeTimeCodeRegAll()" />
+            <input type="button" value="複製" class="btn btn-primary btn-lg" onclick="copy()" />
+            <input type="button" value="清空輸入框" class="btn btn-danger btn-lg" onclick="clean()" />
+        </div>
+
+        <footer>
+            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> </p>
+        </footer>
+    </div>
+
 
     <script>
         window.onload = function () {
