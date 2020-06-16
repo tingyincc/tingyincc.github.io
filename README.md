@@ -1,8 +1,6 @@
-# Personal Website
-https://tingyincc.github.io
+# Site Includes:
+- Webpage: Portofolio https://tingyincc.github.io
+- Tools: SRT to Plain text https://tingyincc.github.io/srttoplain.html
+
 ## Credit
-fork from https://github.com/mmacneil/devfolio
-
-# Site Tools:
-- SRT to Plain text : https://tingyincc.github.io/srttoplain.html
-
+- Portofolio from https://github.com/mmacneil/devfolio
