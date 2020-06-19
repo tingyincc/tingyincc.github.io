@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<script src="https://cdnjs.deepai.org/deepai.min.js"></script>
+
+<head>
+    <title>AI圖片轉文字工具</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <p>
+        <h1>AI圖片轉文字工具</h1>
+        </p>
+
+        <div class="form-group">
+            <label class="btn btn-primary " for="file">圖片上傳<input class="d-none" id="file" type="file" value="UTF8" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="demo">圖片預覽：</label>
+            <img class="img-fluid img-thumbnail" id="demo" src="" height="20%" alt="圖片預覽" />
+        </div>
+
+        <div class="form-group">
+            <label for="output">解析文字：</label>
+            <textarea class="form-control" rows="1" id="output"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="output_translated">翻譯：</label>
+            <textarea class="form-control" rows="1" id="output_translated"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空輸入框" class="m-1 btn btn-danger " onclick="clean()" />
+        </div>
+
+        <footer>
+            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & <a
+                    href="https://deepai.org/machine-learning-model/neuraltalk">DeepAI-NeuralTalk2</a> & Google
+                Translate</p>
+        </footer>
+    </div>
+
+
+    <script>
+        window.onload = function () {
+            document.getElementById("file").addEventListener("change", function (e) {
+                readFile(e.target.files[0]);
+            }, false);
+        };
+        function readFile(file) {
+            var fReader = new FileReader();
+            fReader.onload = function (event) {
+                document.getElementById('demo').src = event.target.result;
+            };
+            fReader.readAsDataURL(file);
+
+            deepai.setApiKey('4d2a2729-3ed9-4801-8951-ec067cfc9f0b');
+
+            (async function () {
+                var resp = await deepai.callStandardApi("neuraltalk", {
+                    image: document.getElementById('file'),
+                });
+                //console.log(resp['output']);
+
+                if (resp.hasOwnProperty('output')) {
+                    document.getElementById("output").value = resp['output'];
+                    translate(resp['output']);
+                }
+            })()
+
+        }
+        function translate(string) {
+            var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            var targetUrl = 'http://translate.google.com.tw/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl=zh_TW&q=' + string;
+
+            fetch(proxyUrl + targetUrl, {
+                headers: {
+                    'user-agent': '	Mozilla/5.0 (Windows NT 10.0; Win64; x64) ',
+                    'Accept': ' */*',
+                    'Accept-Encoding': 'gzip, deflate'
+                },
+                method: 'GET'
+
+            }).then(blob => blob.json())
+                .then(data => {
+                    //console.table(data);
+                    if (data.hasOwnProperty('sentences')) {
+                        //console.log(data['sentences'][0]['trans'])
+                        document.getElementById("output_translated").value = data['sentences'][0]['trans'];
+                    }
+                    return data;
+                })
+                .catch(e => {
+                    console.log(e);
+                    return e;
+                });
+
+        }
+
+
+        function clean() {
+            document.getElementById("output").value = "";
+            document.getElementById("output_translated").value = "";
+        }
+
+        function copy() {
+            var in_output = document.getElementById("output");
+            in_output.select();
+            document.execCommand("Copy");
+            if (confirm("文本已複製至剪貼簿")) {
+                //in_output.value = "";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
