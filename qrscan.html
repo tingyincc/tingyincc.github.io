@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+<head>
+    <title>QR Code Invoice Scanner</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <p>
+        <h1>QR Code Invoice Scanner</h1>
+        </p>
+
+        <div class="form-group">
+            <label class="btn btn-primary " for="file">圖片上傳<input class="d-none" id="file" type="file" value="UTF8" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="preview">相機預覽：</label>
+            <video id="preview"></video>
+        </div>
+
+        <div class="form-group">
+            <label for="output">解析文字：</label>
+            <textarea class="form-control" id="output"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="output_csv">csv暫存框：</label>
+            <textarea class="form-control" id="output_csv"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="解析" class=" m-1 btn btn-primary " onclick=" parse_join()" />
+            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空輸入框" class="m-1 btn btn-danger " onclick="clean()" />
+        </div>
+
+        <footer>
+            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & Instascan</p>
+        </footer>
+    </div>
+
+
+    <script>
+        window.onload = function () {
+
+        };
+        let scanner = new Instascan.Scanner({
+            continuous: true, // 連續掃描
+            video: document.getElementById('preview'), // 預覽
+            facingMode: {
+                exact: "environment"
+            }
+        });
+        scanner.addListener('scan', function (content) {
+
+            console.log(content);
+            getConfirmation();
+
+            function getConfirmation() {
+                var retVal = confirm("掃描結果：" + content); // 掃描結果顯示
+                if (retVal == true) {
+                    document.getElementById("output").value = retVal;
+                }
+                // if (retVal == true) {
+                //     var checkurl = /^((https?|http?|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/; // 檢查是否為網址
+                //     if (checkurl.test(content)) {
+                //         window.open(content, "_self"); // 開啟網址
+                //     }
+                //     return true;
+                // } else {
+                //     return false;
+                // }
+            }
+
+
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[1]); // [0] 前鏡頭 [1] 後鏡頭 
+            } else {
+                console.error('沒有找到相機');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+
+        function parse_join() {
+            content = document.getElementById("output").value;
+            let tag = content.match(/([A-Z]{2}[0-9]{8})(.{7})(.{4})(.{8})(.{8})(.{8})(.{8})(.*:)(.*)/gm);
+            let inv_num = tag[0];
+            let date = tag[1];
+            let value = parseInt(tag[4], 16);
+            let name = tag[9];
+            document.getElementById("output_csv").value += "{0},{1},{2},{3}\n".format(inv_num, date, value, name);
+        }
+
+        function clean() {
+            document.getElementById("output").value = "";
+            document.getElementById("output_csv").value = "";
+        }
+
+        function copy() {
+            var in_output = document.getElementById("output_csv");
+            in_output.select();
+            document.execCommand("Copy");
+            if (confirm("文本已複製至剪貼簿")) {
+                //in_output.value = "";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
