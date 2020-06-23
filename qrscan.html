@@ -16,20 +16,12 @@
         <h1>QR Code Invoice Scanner</h1>
         </p>
         <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-        <canvas id="canvas" hidden=""></canvas>
+        <canvas id="canvas" width="100%" hidden=""></canvas>
         <div id="output" hidden="">
             <div id="outputMessage">No QR code detected.</div>
             <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
         </div>
-        <div class="form-group">
-            <label class="btn btn-primary " for="file">圖片上傳<input class="d-none" id="file" type="file" value="UTF8" />
-            </label>
-        </div>
 
-        <div class="form-group">
-            <label for="preview">相機預覽：</label>
-            <video id="preview"></video>
-        </div>
 
         <div class="form-group">
             <label for="output">解析文字：</label>
