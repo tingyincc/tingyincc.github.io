@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<script src="src/jsQR.js"></script>
+<script src="js/jsQR.js"></script>
 
 <head>
     <title>QR Code Invoice Scanner</title>
@@ -25,7 +25,7 @@
 
         <div class="form-group">
             <label for="output">解析文字：</label>
-            <textarea class="form-control" id="output"></textarea>
+            <textarea class="form-control" id="output_tmp"></textarea>
         </div>
 
         <div class="form-group">
@@ -40,7 +40,7 @@
         </div>
 
         <footer>
-            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & Instascan</p>
+            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & <a href="https://github.com/cozmo/jsQR">jsQR</a></p>
         </footer>
     </div>
 
@@ -93,35 +93,26 @@
                     outputMessage.hidden = true;
                     outputData.parentElement.hidden = false;
                     outputData.innerText = code.data;
-                    document.getElementById("output").value = code.data;
+                    document.getElementById("output_tmp").value = code.data;
                 } else {
-                    outputMessage.hidden = false;
-                    outputData.parentElement.hidden = true;
+                    // outputMessage.hidden = false;
+                    // outputData.parentElement.hidden = true;
                 }
             }
             requestAnimationFrame(tick);
         }
-        let scanner = new Instascan.Scanner({
-            continuous: true, // 連續掃描
-            video: document.getElementById('preview'), // 預覽
-            facingMode: {
-                exact: "environment"
-            }
-        });
+    
 
 
         function parse_join() {
-            content = document.getElementById("output").value;
-            let tag = content.match(/([A-Z]{2}[0-9]{8})(.{7})(.{4})(.{8})(.{8})(.{8})(.{8})(.*:)(.*)/gm);
-            let inv_num = tag[0];
-            let date = tag[1];
-            let value = parseInt(tag[4], 16);
-            let name = tag[9];
-            document.getElementById("output_csv").value += "{0},{1},{2},{3}\n".format(inv_num, date, value, name);
+            content = document.getElementById("output_tmp").value;
+            let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8}).+:.+\:.+\:.+\:.+\:(?<name>.+)\:(?<p_num>[\d])+\:(?<p_per_price>[\d])+\:/;
+            let groups = content.match(dateRegexp).groups;
+            document.getElementById("output_csv").value += groups.inv_num +","+ groups.date +","+  parseInt(groups.price,16)+","+  groups.name+ ","+  groups.seller+"\n";
         }
 
         function clean() {
-            document.getElementById("output").value = "";
+            document.getElementById("output_tmp").value = "";
             document.getElementById("output_csv").value = "";
         }
 
@@ -138,3 +129,4 @@
 </body>
 
 </html>
+
