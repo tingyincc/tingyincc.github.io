@@ -8,6 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style>
+        #canvas {
+            height: 20vh !important;
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -o-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+        }
+    </style>
 </head>
 
 <body>
@@ -16,12 +26,17 @@
         <h1>QR Code Invoice Scanner</h1>
         </p>
         <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-        <canvas id="canvas" width="100%" hidden=""></canvas>
+        <canvas id="canvas" style="height: 20vh !important;" hidden=""></canvas>
         <div id="output" hidden="">
             <div id="outputMessage">No QR code detected.</div>
             <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
         </div>
 
+        <div class="form-group">
+            <input type="button" value="解析" class=" m-1 btn btn-primary " onclick=" parse_join()" />
+            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空輸入框" class="m-1 btn btn-danger " onclick="clean()" />
+        </div>
 
         <div class="form-group">
             <label for="output">解析文字：</label>
@@ -33,14 +48,11 @@
             <textarea class="form-control" id="output_csv"></textarea>
         </div>
 
-        <div class="form-group">
-            <input type="button" value="解析" class=" m-1 btn btn-primary " onclick=" parse_join()" />
-            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
-            <input type="button" value="清空輸入框" class="m-1 btn btn-danger " onclick="clean()" />
-        </div>
+
 
         <footer>
-            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & <a href="https://github.com/cozmo/jsQR">jsQR</a></p>
+            <p>© 2020 CCTY <a href="https://github.com/tingyincc/tingyincc.github.io">Github</a> & <a
+                    href="https://github.com/cozmo/jsQR">jsQR</a></p>
         </footer>
     </div>
 
@@ -101,14 +113,14 @@
             }
             requestAnimationFrame(tick);
         }
-    
+
 
 
         function parse_join() {
             content = document.getElementById("output_tmp").value;
             let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8}).+:.+\:.+\:.+\:.+\:(?<name>.+)\:(?<p_num>[\d])+\:(?<p_per_price>[\d])+\:/;
             let groups = content.match(dateRegexp).groups;
-            document.getElementById("output_csv").value += groups.inv_num +","+ groups.date +","+  parseInt(groups.price,16)+","+  groups.name+ ","+  groups.seller+"\n";
+            document.getElementById("output_csv").value += groups.inv_num + "," + groups.date + "," + parseInt(groups.price, 16) + "," + groups.name + "," + groups.seller + "\n";
         }
 
         function clean() {
@@ -129,4 +141,3 @@
 </body>
 
 </html>
-
