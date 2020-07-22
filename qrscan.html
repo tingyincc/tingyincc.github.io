@@ -32,20 +32,28 @@
             <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
         </div>
 
-        <div class="form-group">
-            <input type="button" value="解析" class=" m-1 btn btn-primary " onclick=" parse_join()" />
-            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
-            <input type="button" value="清空輸入框" class="m-1 btn btn-danger " onclick="clean()" />
-        </div>
+
 
         <div class="form-group">
-            <label for="output">解析文字：</label>
+            <label for="output_tmp">QRCODE原始資料:</label>
             <textarea class="form-control" id="output_tmp"></textarea>
+            <input type="button" value="加入待解析" class=" m-1 btn btn-primary " onclick=" add_to_wait()" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="output_wait">待解析資料:</label>
+            <textarea class="form-control" id="output_wait"></textarea>
+            <input type="button" value="解析1" class=" m-1 btn btn-primary " onclick=" parse_join()" />
+            <input type="button" value="解析2" class=" m-1 btn btn-primary " onclick=" parse_join_2()" />
+            <input type="button" value="清空待解析" class="m-1 btn btn-danger " onclick="clean_wait()" />
         </div>
 
         <div class="form-group">
             <label for="output_csv">csv暫存框：(發票號碼,日期,發票總金額,項目,公司統編)</label>
             <textarea class="form-control" id="output_csv"></textarea>
+            <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空全部輸入框" class="m-1 btn btn-danger " onclick="clean()" />
         </div>
 
 
@@ -117,14 +125,26 @@
 
 
         function parse_join() {
-            content = document.getElementById("output_tmp").value;
-            let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8}).+:.+\:.+\:.+\:.+\:(?<name>.+)\:(?<p_num>[\d])+\:(?<p_per_price>[\d])+\:/;
+            content = document.getElementById("output_wait").value;
+            let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8}).+\:.+\:.+\:.+\:.+\:(?<name>.+)\:(?<p_num>[\d])+\:(?<p_per_price>[\d])+\:/;
             let groups = content.match(dateRegexp).groups;
             document.getElementById("output_csv").value += groups.inv_num + "," + groups.date + "," + parseInt(groups.price, 16) + "," + groups.name + "," + groups.seller + "\n";
         }
-
+        function parse_join_2() {
+            content = document.getElementById("output_wait").value;
+            let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8})(?<AES>.{24})\:(.{10})\:(.{1})\:(.{1})\:(.{1})(?<rest>.+)/;
+            let groups = content.match(dateRegexp).groups;
+            document.getElementById("output_csv").value += groups.inv_num + "," + groups.date + "," + parseInt(groups.price, 16) + "," + groups.rest + "," + groups.seller + "\n";
+        }
+        function add_to_wait() {
+            document.getElementById("output_wait").value += document.getElementById("output_tmp").value
+        }
+        function clean_wait() {
+            document.getElementById("output_wait").value = "";
+        }
         function clean() {
             document.getElementById("output_tmp").value = "";
+            document.getElementById("output_wait").value = "";
             document.getElementById("output_csv").value = "";
         }
 
