@@ -44,15 +44,15 @@
         <div class="form-group">
             <label for="output_wait">待解析資料:</label>
             <textarea class="form-control" id="output_wait"></textarea>
-            <input type="button" value="解析1" class=" m-1 btn btn-primary " onclick=" parse_join()" />
-            <input type="button" value="解析2" class=" m-1 btn btn-primary " onclick=" parse_join_2()" />
+            <input type="button" value="解析" class=" m-1 btn btn-primary " onclick=" parse_join()" />
             <input type="button" value="清空待解析" class="m-1 btn btn-danger " onclick="clean_wait()" />
         </div>
 
         <div class="form-group">
-            <label for="output_csv">csv暫存框：(發票號碼,日期,發票總金額,項目,公司統編)</label>
+            <label for="output_csv">csv暫存框：(發票號碼,日期,發票總金額,賣家統編(,產品名稱,產品數量,產品單價))</label>
             <textarea class="form-control" id="output_csv"></textarea>
             <input type="button" value="複製" class="m-1 btn btn-primary " onclick="copy()" />
+            <input type="button" value="清空暫存框" class="m-1 btn btn-danger " onclick="clean_save()" />
             <input type="button" value="清空全部輸入框" class="m-1 btn btn-danger " onclick="clean()" />
         </div>
 
@@ -126,9 +126,25 @@
 
         function parse_join() {
             content = document.getElementById("output_wait").value;
-            let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8}).+\:.+\:.+\:.+\:.+\:(?<name>.+)\:(?<p_num>[\d])+\:(?<p_per_price>[\d])+\:/;
-            let groups = content.match(dateRegexp).groups;
-            document.getElementById("output_csv").value += groups.inv_num + "," + groups.date + "," + parseInt(groups.total_price, 16) + "," + groups.name + "," + groups.seller + "\n";
+            let qr_obj = { inv_num: "", date: "", random: "", total_price_before_tax: "", total_price_after_tax: "", buyer: "", seller: "", product_name: "", product_quantity: "", product_price: "" };
+            let key = ["product_name", "product_quantity", "product_price"];
+            let res = "";
+            let array = content.split(":");
+            for (i = 0; i < array.length; i++) {
+                console.log(array[i]);
+                if (i == 0) {
+                    let dateRegexp = /(?<inv_num>[A-Z]{2}[0-9]{8})(?<date>.{7})(?<rand>.{4})(?<price>.{8})(?<total_price>.{8})(?<buyer>.{8})(?<seller>.{8})(?<AES>.{24})/;
+                    let groups = array[i].match(dateRegexp).groups;
+                    res += groups.inv_num + "," + groups.date + "," + parseInt(groups.total_price, 16) + "," + groups.seller;
+                }
+                else if (i >= 5) {
+                    qr_obj[key[i - 5]] = array[i];
+                    res += "," + array[i];
+                }
+
+            }
+            document.getElementById("output_csv").value += res + "\n";
+
         }
         function parse_join_2() {
             content = document.getElementById("output_wait").value;
@@ -141,6 +157,9 @@
         }
         function clean_wait() {
             document.getElementById("output_wait").value = "";
+        }
+        function clean_save() {
+            document.getElementById("output_csv").value = "";
         }
         function clean() {
             document.getElementById("output_tmp").value = "";
