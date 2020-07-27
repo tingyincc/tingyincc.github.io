@@ -138,7 +138,8 @@
                     res += groups.inv_num + "," + groups.date + "," + parseInt(groups.total_price, 16) + "," + groups.seller;
                 }
                 else if (i >= 5) {
-                    qr_obj[key[i - 5]] = array[i];
+                    if (i < 8)
+                        qr_obj[key[i - 5]] = array[i];
                     res += "," + array[i];
                 }
 
