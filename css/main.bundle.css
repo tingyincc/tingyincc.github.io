@@ -3247,7 +3247,13 @@ fieldset[disabled] .button {
 
 .image.is-48x48 {
     height: 48px;
-    width: 48px
+    width: 48px;
+}
+.image.is-64x48 {
+    height: 48px;
+    width: 64px;
+    margin-top: 5px;
+
 }
 
 .image.is-64x64 {
@@ -3257,7 +3263,7 @@ fieldset[disabled] .button {
 
 .image.is-96x96 {
     height: 96px;
-    width: 96px
+    width: 96px;
 }
 
 .image.is-128x128 {
