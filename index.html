@@ -9,6 +9,7 @@
   <script src="https://kit.fontawesome.com/9763f2a323.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.css">
   <script src="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
 </head>
 
 <!-- https://tingyincc.github.io/img/bg.jpg -->
@@ -82,10 +83,22 @@
         <p> Software engineer with experience with Web Development, Internet Of Things and Machine Learning. Eagering to
           apply the learned to build practical tools for users. Fast
           learner with a can-do spirit and full of curiosity about new techniques.</p>
-        <p><a href="files/cv.pdf">Download My CV</a></p>
+       
 
       </div>
     </section>
+    <section class="section section-fixed">
+      <div class="container">
+        <h1 class="title">Resume</h1>
+        <p><a href="files/cv.pdf">Download My Resume</a></p>
+        <div id="my_pdf_viewer">
+          <div id="canvas_container">
+              <canvas id="pdf_renderer"></canvas>
+          </div>
+      </div>
+      </div>
+    </section>
+
 
     <section class="section section-fixed">
       <div class="container">
@@ -1111,6 +1124,35 @@
   </footer>
 
   <script src="js/bundle.js"></script>
+  <script>
+    var myState = {
+        pdf: null,
+        currentPage: 1,
+        zoom: 1
+    }
+ 
+    pdfjsLib.getDocument('files/cv.pdf').then((pdf) => {
+ 
+        myState.pdf = pdf;
+        render();
+    });
+    function render() {
+        myState.pdf.getPage(myState.currentPage).then((page) => {
+     
+            var canvas = document.getElementById("pdf_renderer");
+            var ctx = canvas.getContext('2d');
+ 
+            var viewport = page.getViewport(myState.zoom);
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+     
+            page.render({
+                canvasContext: ctx,
+                viewport: viewport
+            });
+        });
+    }
+</script>
 </body>
 
 </html>
